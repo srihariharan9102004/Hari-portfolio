@@ -337,6 +337,12 @@ body{
 .nav-link:hover{
   opacity:1;
 }
+#About,
+#Skills,
+#Projects,
+#Experience {
+  scroll-margin-top: 100px;
+}
 
 /*  ======================== HERO ===============================*/
 
@@ -345,7 +351,19 @@ body{
   color:white;
 }
 
+.section-block {
+  padding: 90px 0;   /* TOP & BOTTOM SPACE */
+  margin: 0;
+  position: relative;
+}
 
+/* Extra breathing space for important sections */
+.section-block + .section-block {
+  margin-top: 20px;
+}
+section {
+  scroll-margin-top: 90px;
+}
 /* ======================= ABOUT SECTION STYLING ======================= */
 .about-sec {
   padding: 20px 0;
@@ -706,6 +724,51 @@ body.dark-mode .skill-card {
   opacity: 0.45;
 }
 
+/* ================= PROJECT SECTION BG ================= */
+
+.projects-section {
+  position: relative;
+  padding: 80px 0;
+   width: 100%;
+   background-color: rgb(97, 94, 94);
+   overflow: hidden; /* IMPORTANT */
+  /* background: url('/projectbgimg/projects-bg.jpg') center/cover no-repeat;
+  background-attachment: fixed; Parallax effect */
+}
+
+
+/* Keep content above overlay */
+.projects-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+.projects-section h3,
+.projects-section .neo-pro-title,
+.projects-section .neo-pro-desc {
+  color: white;
+}
+
+.projects-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgb(97, 94, 94);
+   opacity: 0.9;
+
+  transform: translateX(100%); /* start from right */
+  transition: transform 1.2s ease-in-out;
+
+  z-index: 0;
+}
+.projects-section.reveal-active::before {
+  transform: translateX(0); /* slide in */
+  opacity: 1;
+}
+.projects-section .container {
+  position: relative;
+  z-index: 2;
+}
   /* ============== ULTRA MODERN PROJECT CARD ============================ */
 
 .neo-pro-card {
@@ -718,6 +781,10 @@ body.dark-mode .skill-card {
   border: 1.5px solid rgba(255,255,255,0.15);
   transition: 0.4s ease;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;              /* makes all equal */
+  min-height: 420px;         /* fixed card height */
 
   /* 3D Hover */
   transform-style: preserve-3d;
@@ -745,13 +812,20 @@ body.dark-mode .skill-card {
   box-shadow: 0 18px 35px rgba(0,0,0,0.25);
 }
 
-/* ======================= IMAGE SECTION ======================= */
+/* ======================= video SECTION ======================= */
 
 .neo-pro-img-wrap {
   width: 100%;
   height: 200px;
   overflow: hidden;
+   border-radius: 12px 12px 0 0;
   position: relative;
+}
+.neo-pro-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* 🔥 fills entire area */
+  display: block;
 }
 
 .neo-pro-img {
@@ -783,6 +857,10 @@ body.dark-mode .skill-card {
   font-weight: 700;
   font-size: 1.1rem;
   color: var(--text-color);
+  flex: 1;                   /* pushes content evenly */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .neo-pro-desc {
@@ -811,6 +889,26 @@ body.dark-mode .skill-card {
 
 .neo-tag-small:hover {
   transform: translateY(-2px);
+}
+.view-code-btn {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 10px;
+  text-decoration: none;
+
+  color: white;
+  background-color: #0d0d0f;
+
+  transition: 0.3s ease;
+  box-shadow: 0 0 12px rgba(0,0,0,0.25);
+}
+
+.view-code-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow:  0 0 12px rgba(0,0,0,0.25);
 }
 
 /* =================== EXPERIENCE SECTION ======================*/
@@ -978,6 +1076,166 @@ body.dark-mode .skill-card {
 .reveal-active{
   opacity:1;
   transform:translateY(0);
+}
+
+
+/* ================= ACHIEVEMENTS ================= */
+
+.achievements-section {
+  width: 100%;
+  min-height: 620px;
+  padding: 40px 0;
+  margin-top: 60px;
+  position: relative;
+  overflow: hidden;
+  z-index: 50; 
+  background: url("/ACHIEVEMENTS/ACHIEVEMENTS.bg.jpg") center/cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.achievements-container {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+    z-index: 2;
+}
+
+/* Slider */
+.ach-slider {
+  position: relative;
+  width: 100%;
+   height: 260px;
+}
+
+/* Cards */
+.ach-card {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  width: 60%;
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--card-bg);
+  box-shadow: var(--shadow);
+  text-align: center;
+  opacity: 0.4;
+  filter: blur(2px);
+  transition: all 0.6s ease;
+}
+
+/* CENTER ACTIVE */
+.ach-card.active {
+  transform: translate(-50%, -50%) scale(1.1);
+  opacity: 1;
+  filter: blur(0);
+  z-index: 5;
+}
+
+/* LEFT */
+.ach-card.prev {
+  transform: translate(-140%, -50%) scale(0.8);
+}
+
+/* RIGHT */
+.ach-card.next {
+  transform: translate(40%, -50%) scale(0.8);
+}
+
+/* TEXT */
+.ach-card h5 {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.ach-card p {
+  font-size: 0.9rem;
+  color: var(--subtext);
+}
+
+/* BUTTONS */
+.ach-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: white;
+  font-size: 28px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.ach-btn.left {
+  left: 20px;
+}
+
+.ach-btn.right {
+  right: 20px;
+}
+
+.ach-btn:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+/* FIX HEADING VISIBILITY */
+.achievements-section h3 {
+  
+  position: relative;
+   margin-bottom: 80px; /* increase spacing */
+  z-index: 60; 
+   color: #fff;
+  
+}
+.achievements-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2); /* adjust darkness */
+  z-index: 0;
+}
+.view-btn {
+  margin-top: 10px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: white;
+  transition: 0.3s;
+}
+
+.view-btn:hover {
+  transform: scale(1.05);
+}
+
+.cert-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;   /* ⭐ THIS FIXES YOUR ISSUE */
+  border-radius: 10px;
+}
+/* ===== CERTIFICATE MODAL (BIG) ===== */
+.cert-modal {
+  width: 95%;
+  max-width: 1000px;   /* bigger than experience */
+  height: 80vh;        /* almost full screen */
+  padding: 20px;
+}
+
+/* Image Fit Perfectly */
+.cert-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
 }
 
 /* ========================= CONTACT SECTION ========================== */
@@ -1172,4 +1430,116 @@ body.dark-mode .skill-card {
 @media(max-width:768px){
   .modal-box{padding:18px;}
   .hero{min-height:360px;}
+}
+
+
+/* ================= MODERN SKILLS SECTION ================= */
+
+.skills-modern-section {
+  padding: 100px 0;
+  position: relative;
+}
+
+.skills-main-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 60px;
+
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* GRID */
+.skills-category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+}
+
+/* CARD */
+.skill-category-card {
+  padding: 28px;
+  border-radius: 22px;
+
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(255,255,255,0.15);
+
+  transition: 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Glow */
+.skill-category-card::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(
+    135deg,
+    var(--accent),
+    var(--accent-2)
+  );
+
+  opacity: 0;
+  transition: 0.5s;
+  filter: blur(60px);
+}
+
+.skill-category-card:hover::before {
+  opacity: 0.25;
+}
+
+/* Hover */
+.skill-category-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+/* Heading */
+.skill-category-card h4 {
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: var(--text-color);
+  position: relative;
+  z-index: 2;
+}
+
+/* TAGS */
+.modern-skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  position: relative;
+  z-index: 2;
+}
+
+.modern-skill-tags span {
+  padding: 10px 16px;
+  border-radius: 12px;
+
+  background: linear-gradient(
+    135deg,
+    var(--accent),
+    var(--accent-2)
+  );
+
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  transition: 0.3s ease;
+}
+
+/* Tag Hover */
+.modern-skill-tags span:hover {
+  transform: scale(1.08);
+}
+
+/* DARK MODE */
+[data-theme="dark"] .skill-category-card {
+  background: rgba(20,20,25,0.6);
+  border: 1px solid rgba(255,255,255,0.08);
 }

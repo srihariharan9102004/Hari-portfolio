@@ -16,37 +16,111 @@ export default function App() {
   // ================== PROJECT DATA ===================
   const projects = [
     {
-      img:"https://assets.aboutamazon.com/dims4/default/ed553e7/2147483647/strip/false/crop/4108x2304+0+0/resize/1486x833!/quality/90/?url=https%3A%2F%2Famazon-blogs-brightspot.s3.amazonaws.com%2F36%2F59%2Feba4adcc4f88a972b5639ed1dde0%2Fadobestock-712831308.jpeg",
+      video: "/projectbgimg/deepfake.mp4",
       title: "Hybrid Convolutional Model for Multimodal Deepfake Detection",
       desc: "Developed an AI-based system to detect deepfake content in images, audio, and video using deep learning models . And improving detection accuracy across multiple media types.",
       tech: ["Python", "Deep Learning", "CNN","GNN","AI"],
+      github: "https://github.com/yourusername/deepfake-project"
+    },
+     {
+      video: "/projectbgimg/reminder.mp4",
+      title: "Map-Based Location Reminder Application (In Progress)",
+      desc: "Built a GPS-based reminder app with real-time alerts using Leaflet, Nominatim, and OSRM APIs, leveraging browser APIs for a fully client-side solution.",
+      tech: ["React.js", "Google Maps API","Location Services","JAVA", "MySQL"],
+      github: "https://github.com/srihariharan9102004/REMEMBER-location-app.git"
     },
 
      {
-      img:"https://assets.aboutamazon.com/dims4/default/ed553e7/2147483647/strip/false/crop/4108x2304+0+0/resize/1486x833!/quality/90/?url=https%3A%2F%2Famazon-blogs-brightspot.s3.amazonaws.com%2F36%2F59%2Feba4adcc4f88a972b5639ed1dde0%2Fadobestock-712831308.jpeg",
+      video: "/projectbgimg/sihvideo.mp4",
       title: "Voice-Text Assistive System (SIH Hackathon 2024)",
       desc: "Led a team building a voice↔text system to help visually impaired users communicate.",
       tech: ["React", "Java", "API"],
+      github: "https://github.com/yourusername/deepfake-project"
     },
     {
-      img:"https://assets.aboutamazon.com/dims4/default/ed553e7/2147483647/strip/false/crop/4108x2304+0+0/resize/1486x833!/quality/90/?url=https%3A%2F%2Famazon-blogs-brightspot.s3.amazonaws.com%2F36%2F59%2Feba4adcc4f88a972b5639ed1dde0%2Fadobestock-712831308.jpeg",
+      video: "/videos/project1.mp4",
       title: "Electronic Theft Detection (AI & DL)",
       desc: "Research & prototype using computer vision and ML for theft detection.",
       tech: ["Python", "Deep Learning"],
+      github: "https://github.com/yourusername/deepfake-project"
     },
     {
-      img:"https://assets.aboutamazon.com/dims4/default/ed553e7/2147483647/strip/false/crop/4108x2304+0+0/resize/1486x833!/quality/90/?url=https%3A%2F%2Famazon-blogs-brightspot.s3.amazonaws.com%2F36%2F59%2Feba4adcc4f88a972b5639ed1dde0%2Fadobestock-712831308.jpeg",
+      video: "/videos/project1.mp4",
       title: "Web Projects & Internships",
       desc: "Developed responsive UI using React.js and JavaScript, improving page responsiveness by 20% Worked on a real-time website involving both front-end and back-end development Contributed to website maintenance and back-end improvements using Java Built Java-based backen.",
       tech: ["React.js", "HTML & CSS", "Bootstrap","JAVA","MySQL"],
+      github: "https://github.com/srihariharan9102004/next-ias.git"
     },
-     {
-      img:"https://assets.aboutamazon.com/dims4/default/ed553e7/2147483647/strip/false/crop/4108x2304+0+0/resize/1486x833!/quality/90/?url=https%3A%2F%2Famazon-blogs-brightspot.s3.amazonaws.com%2F36%2F59%2Feba4adcc4f88a972b5639ed1dde0%2Fadobestock-712831308.jpeg",
-      title: "Map-Based Location Reminder Application (In Progress)",
-      desc: "Developing a smart reminder application that triggers alerts based on the user's geographic location . The system allows users to set reminders linked to specific places, helping them remember tasks when they reach a location. Currently building the front-end interface and integrating map APIs for real-time location tracking.",
-      tech: ["React.js", "Google Maps API", "Bootstrap","Location Services","JAVA", "MySQL"],
-    },
+    
   ];
+
+  const [activeAch, setActiveAch] = useState(0);
+
+const achievements = [
+  {
+    title: "Conference Presenter (ICA6NT 2026)",
+    desc: "Presented research paper on multimodal deepfake detection at Velammal Institute of Technology, Chennai",
+    certificate: "/ACHIEVEMENTS/conference.jpg",
+  },
+  {
+    title: "Java Web Development (A+)",
+    desc: "Completed 4-credit course with Excellent grade covering Core Java & Web Dev",
+    certificate: "/ACHIEVEMENTS/java.jpg",
+  },
+  {
+    title: "Smart India Hackathon 2024",
+    desc: "Built Voice↔Text system using Google TTS API & MySQL for accessibility",
+    certificate: "",
+  },
+  {
+    title: "IBM MySQL Certification",
+    desc: "Learned CRUD operations, database design, and large dataset handling",
+    certificate: "/ACHIEVEMENTS/IBMSQL.jpg",
+  },
+];
+const [activeCert, setActiveCert] = useState(null);
+const [autoDelay, setAutoDelay] = useState(3000); // default 3 sec
+
+
+// Auto Slide (2 seconds)--ACHIEVEMENTS & CERTIFICATIONS
+
+useEffect(() => {
+  const slider = setInterval(() => {
+    setActiveAch((prev) =>
+      prev === achievements.length - 1 ? 0 : prev + 1
+    );
+  }, autoDelay);
+
+  return () => clearInterval(slider);
+}, [autoDelay, achievements.length]);
+
+// Manual Controls
+
+const nextAch = () => {
+  setActiveAch((prev) =>
+    prev === achievements.length - 1 ? 0 : prev + 1
+  );
+
+  // Pause auto (set to 10 sec)
+  setAutoDelay(10000);
+
+  // Reset back to normal after 10 sec
+  setTimeout(() => {
+    setAutoDelay(3000);
+  }, 10000);
+};
+
+const prevAch = () => {
+  setActiveAch((prev) =>
+    prev === 0 ? achievements.length - 1 : prev - 1
+  );
+
+  setAutoDelay(10000);
+
+  setTimeout(() => {
+    setAutoDelay(3000);
+  }, 10000);
+};
 
   // ================== DARK MODE ===================
   useEffect(() => {
@@ -97,7 +171,7 @@ export default function App() {
         </button>
       </li>
 
-      {["about", "skills", "projects", "contact"].map((item) => (
+      {["About", "Skills", "Projects","Experience","Achievements", "Contact"].map((item) => (
         <li className="nav-item nav-li" key={item}>
           <a className="nav-link cool-link" href={`#${item}`}>
             {item.charAt(0).toUpperCase() + item.slice(1)}
@@ -124,7 +198,7 @@ export default function App() {
           </p>
 
           <div className="hero-buttons">
-            <a href="#projects" className="btn hero-btn-1">See Projects</a>
+            <a href="#Projects" className="btn hero-btn-1">See Projects</a>
             <a href={RESUME_URL} className="btn hero-btn-2" download>Download Resume</a>
           </div>
         </div>
@@ -138,10 +212,11 @@ export default function App() {
       {/* ======================================================
           ====================== MAIN BODY =====================
           ====================================================== */}
-      <main className="container my-5">
-
+      <main className=" my-5">
+<div className="container">
         {/* ==================== ABOUT SECTION =================== */}
-        <section id="about" className="row align-items-center mb-5 reveal about-sec">
+        <section className="section-block" id="About">
+        <section id="About" className="row align-items-center mb-5 reveal About-sec">
           <div className="col-md-7">
             <h2 className="fw-bold about-title">About Me</h2>
             <div className="accent-line"></div>
@@ -156,10 +231,10 @@ contribute to real-world projects
             </p>
 
             <div className="about-details mt-3">
-              <p><strong>Education:</strong> B.Tech CSE (CGPA 7.8)</p>
-              <p><strong>Location:</strong>  Puducherry-605007 </p>
+              <p><strong>Education:</strong> B.Tech / CSE (CGPA 7.8)</p>
               <p><strong>Contact:</strong> +91 63796 18368</p>
               <p><strong>Email:</strong> srihariharan9102004@gmail.com</p>
+               <p><strong>Location:</strong>  Puducherry-605007 </p>
             </div>
           </div>
 
@@ -178,11 +253,15 @@ contribute to real-world projects
             </div>
           </div>
         </section>
+        </section>
 
 
         {/* ====================== SKILLS SECTION ====================== */}
-    <section id="skills" className="mb-5 skills-section">
+        <section className="section-block" id="Skills">
+    <section id="Skills" className="mb-5 skills-section">
   <h3 className="fw-bold text-center skills-title">Technical Skills</h3>
+  <br></br>
+  <br></br>
 
   <div className="skills-grid">
     {[
@@ -198,7 +277,7 @@ contribute to real-world projects
       { name: "OOP Concepts", level: 80 },
       { name: "Problem Solving", level: 80 },
        { name: "AI prompting", level: 80 },
-      { name: "Learing to unlock new skill", level:100}
+      { name: "Learn to unlock new skill", level:100}
     ].map((skill) => (
       <div
         key={skill.name}
@@ -211,10 +290,14 @@ contribute to real-world projects
     ))}
   </div>
 </section>
+</section>
+</div>
 
+                            {/* ====================== PROJECTS ====================== */}
 
-        {/* ====================== PROJECTS ====================== */}
-<section id="projects" className="mb-5 reveal">
+        <section className="section-block" id="Projects">
+<section id="Projects" className="Projects-section reveal">
+  <div className="container">
   <h3 className="fw-bold text-center mb-4">Projects</h3>
 
   <div className="row g-4 mt-2">
@@ -223,10 +306,17 @@ contribute to real-world projects
         
         <div className="neo-pro-card">
           
-          {/* ========= PROJECT IMAGE (YOU CAN INSERT YOUR OWN IMG) ========= */}
+          {/* ========= PROJECT video ========= */}
           <div className="neo-pro-img-wrap">
-            <img src={p.img } alt="" className="neo-pro-img" />
-          </div>
+  <video
+    src={p.video}
+    className="neo-pro-video"
+    autoPlay
+    loop
+    muted
+    playsInline
+  />
+</div>
 
           {/* ========= TEXT ========= */}
           <div className="neo-pro-content">
@@ -238,20 +328,30 @@ contribute to real-world projects
                 <span key={t} className="neo-tag-small">{t}</span>
               ))}
             </div>
+             {/* 🔥 VIEW CODE BUTTON */}
+  <a
+    href={p.github}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="view-code-btn"
+  >
+    View Code
+  </a>
           </div>
 
         </div>
 
       </div>
     ))}
-  </div>
+  </div></div>
 </section>
-
-
-
+</section>
+ <div className="container">
         {/* =================== EXPERIENCE ======================= */}
-      <section id="experience" className="mb-5 reveal experience-sec">
+        <section className="section-block" id="Experience">
+      <section id="Experience" className="mb-5 reveal Experience-sec" style={{paddingTop:"80px", marginTop:"-80px"}}>
   <h3 className="fw-bold text-center mb-4">Experience & Internships</h3>
+  <br></br>
 
   <div className="timeline">
 
@@ -269,17 +369,87 @@ contribute to real-world projects
     </div>
 
     <div className="timeline-item reveal">
-      <h6>Front-End Intern — Top Skilled Academy</h6>
+      <h6>Front-End Intern — VALVENET TECHNOLOGY</h6>
       <p className="small">Built UI pages & layouts<br></br>Built responsive web pages using HTML, CSS, JavaScript, and React.js with a focus on clean and consistent UI design.</p>
       <button className="exp-btn" onClick={() => setActiveExp("tsa")}>Click — More Info</button>
     </div>
 
   </div>
 </section>
+</section>
+
+{/* ================= ACHIEVEMENTS ================= */}
+<section id="Achievements" className="section-block">
+  <div className="container achievements-section">
+
+    <h3 className="text-center fw-bold mb-4">
+      Achievements & Certifications
+    </h3>
+
+    <div className="achievements-container">
+
+      <button className="ach-btn left" onClick={prevAch}>‹</button>
+
+      <div className="ach-slider">
+        {achievements.map((item, index) => {
+          let position = "next";
+
+          if (index === activeAch) position = "active";
+          else if (
+            index === activeAch - 1 ||
+            (activeAch === 0 && index === achievements.length - 1)
+          ) position = "prev";
+
+          return (
+            <div className={`ach-card ${position}`} key={index}>
+              <h5>{item.title}</h5>
+              <p>{item.desc}</p>
+               
+               <button
+    className="view-btn"
+    onClick={() => setActiveCert(item.certificate)}
+  >
+    View Certificate
+  </button>
+            </div>
+          );
+        })}
+      </div>
+
+      <button className="ach-btn right" onClick={nextAch}>›</button>
+
+    </div>
+
+  </div>
+</section>
+
+{activeCert && (
+  <div className="modal-overlay" onClick={() => setActiveCert(null)}>
+    <div className="modal-box cert-modal" onClick={(e) => e.stopPropagation()}>
+
+      <button className="close-btn" onClick={() => setActiveCert(null)}>
+        ×
+      </button>
+
+      {/* PDF / Image Viewer */}
+      <img
+        src={activeCert}
+        alt="certificate"
+        className="cert-img"
+        src={activeCert}
+        title="Certificate"
+        width="100%"
+        height="500px"
+        style={{ borderRadius: "10px" }}
+      />
+
+    </div>
+  </div>
+)}
 
         {/* ====================== CONTACT ====================== */}
-
-<section id="contact" className="mb-5 reveal contact-sec">
+<section className="section-block" id="Contact">
+<section id="Contact" className="mb-5 reveal Contact-sec">
   <h3 className="fw-bold text-center contact-title">
     Get Contact
   </h3>
@@ -335,8 +505,8 @@ contribute to real-world projects
     </a>
   </div>
 </section>
-
-
+</section>
+</div>
 
       </main>
 
