@@ -1,0 +1,242 @@
+/* ======================= ABOUT SECTION STYLING ======================= */
+.about-sec {
+  padding: 20px 0;
+}
+
+.about-title {
+  font-size: 2.3rem;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: font-size 0.25s ease;
+}
+
+.accent-line {
+  width: 70px;
+  height: 5px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  margin-top: 10px;
+}
+
+.about-text {
+  color: var(--subtext);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.about-details p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+}
+
+.about-details a {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.about-card {
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(14px);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  transition: 0.35s ease;
+}
+
+[data-theme="dark"] .about-card {
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  background: rgba(20, 20, 25, 0.6);
+}
+
+.about-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 28px rgba(0, 0, 0, 0.2);
+}
+
+.photo-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  font-weight: 700;
+  display: flex;
+  font-size: 30px;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.about-extra {
+  text-align: left;
+  font-size: 0.92rem;
+  color: var(--subtext);
+}
+
+/* Circle Container */
+.photo-circle {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.25s ease, height 0.25s ease;
+}
+
+/* Image Fit Inside Circle */
+.profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ======================= RESPONSIVE ======================= */
+/* Card sub-elements (id-badge, name, role, hire-badge, divider,
+   info-section/info-row/label/value) may already be styled globally
+   elsewhere in the project — these rules are scoped under .about-sec
+   so they safely override just for this section, at just these sizes,
+   without touching how the card looks anywhere else. */
+
+@media (max-width: 992px) {
+  .about-title {
+    font-size: 1.9rem;
+  }
+
+  .about-text {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-sec {
+    padding: 14px 0;
+  }
+
+  .about-title {
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  .about-sec .accent-line {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .about-text {
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  .about-details p {
+    font-size: 0.85rem;
+    margin: 5px 0;
+  }
+
+  .about-sec .about-card {
+    max-width: 340px;
+    margin: 30px auto 0;
+    padding: 22px 18px;
+    border-radius: 16px;
+  }
+
+  .about-sec .id-top {
+    margin-bottom: 8px;
+  }
+
+  .about-sec .photo-circle {
+    width: 110px;
+    height: 110px;
+  }
+
+  .about-sec .id-badge {
+    font-size: 0.6rem;
+    padding: 5px 12px;
+    letter-spacing: 1px;
+  }
+
+  .about-sec .name {
+    font-size: 1.05rem;
+  }
+
+  .about-sec .role {
+    font-size: 0.78rem;
+  }
+
+  .about-sec .hire-badge {
+    font-size: 0.72rem;
+    padding: 6px 14px;
+  }
+
+  .about-sec .divider {
+    margin: 14px 0;
+  }
+
+  .about-sec .info-section {
+    gap: 10px;
+  }
+
+  .about-sec .info-row .label {
+    font-size: 0.65rem;
+  }
+
+  .about-sec .info-row .value {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-title {
+    font-size: 1.35rem;
+  }
+
+  .about-text {
+    font-size: 0.85rem;
+  }
+
+  .about-details p {
+    font-size: 0.78rem;
+  }
+
+  .about-sec .about-card {
+    max-width: 260px;
+    margin: 24px auto 0;
+    padding: 16px 14px;
+    border-radius: 14px;
+  }
+
+  .about-sec .photo-circle {
+    width: 88px;
+    height: 88px;
+  }
+
+  .about-sec .id-badge {
+    font-size: 0.55rem;
+    padding: 4px 10px;
+    letter-spacing: 0.6px;
+  }
+
+  .about-sec .name {
+    font-size: 0.95rem;
+  }
+
+  .about-sec .role {
+    font-size: 0.7rem;
+  }
+
+  .about-sec .hire-badge {
+    font-size: 0.66rem;
+    padding: 5px 12px;
+  }
+
+  .about-sec .info-row .label {
+    font-size: 0.6rem;
+  }
+
+  .about-sec .info-row .value {
+    font-size: 0.74rem;
+  }
+}

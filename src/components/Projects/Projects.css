@@ -1,0 +1,856 @@
+/*====================================================
+  TOKENS — falls back gracefully if --bg-color isn't
+  defined globally elsewhere on the site
+====================================================*/
+
+.pj-section {
+  --pj-bg: var(--bg-color, #0a0a0f);
+  --pj-surface: #14141b;
+  --pj-surface-2: #1a1a24;
+  --pj-border: rgba(255, 255, 255, 0.08);
+  --pj-border-strong: rgba(255, 255, 255, 0.18);
+  --pj-text: #f5f6fa;
+  --pj-text-dim: #9a9aa6;
+  --pj-accent: #0d6efd;
+  --pj-accent-2: #22d3ee;
+  --pj-shadow: rgba(3, 4, 10, 0.65);
+
+  padding: 90px 0;
+  overflow: hidden;
+  position: relative;
+  color: var(--pj-text);
+}
+
+.pj-section *,
+.pj-section *::before,
+.pj-section *::after {
+  box-sizing: border-box;
+}
+
+.pj-title {
+  font-size: 52px;
+  font-weight: 800;
+  margin-bottom: 55px;
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+
+/*====================================================
+  RAIL HEADER
+====================================================*/
+
+.pj-rail {
+  margin-bottom: 90px;
+}
+
+.pj-rail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+  gap: 20px;
+  width: 100%;
+}
+
+.pj-rail-header h3 {
+  font-size: 38px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.pj-rail-header p {
+  color: var(--pj-text-dim);
+  font-size: 17px;
+}
+
+/*====================================================
+  ARROW BUTTONS
+====================================================*/
+
+.pj-rail-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+.pj-arrow {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 1px solid var(--pj-border-strong);
+  cursor: pointer;
+  background: var(--pj-surface);
+  color: var(--pj-text);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease,
+    border-color 0.25s ease, opacity 0.25s ease;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+.pj-arrow:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--pj-accent), var(--pj-accent-2));
+  border-color: transparent;
+  transform: scale(1.08);
+  box-shadow: 0 12px 28px rgba(13, 110, 253, 0.4);
+}
+
+.pj-arrow:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.pj-arrow:disabled {
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Fully hidden (not just dimmed) at the start/end of the rail, and kept in
+   its layout slot so the other arrow never jumps position. */
+.pj-arrow.pj-arrow--hidden {
+  opacity: 0;
+  transform: scale(0.55);
+  pointer-events: none;
+  box-shadow: none;
+}
+
+.pj-arrow:focus-visible {
+  outline: 2px solid var(--pj-accent-2);
+  outline-offset: 3px;
+}
+
+/*====================================================
+  CAROUSEL FRAME
+  Card widths are NOT set here — they're computed live
+  in JS (see ProjectRail's `recompute`) and applied as an
+  inline style, which is what guarantees the exact
+  "N full cards + peek" layout at every screen size.
+====================================================*/
+
+.pj-rail-frame {
+  position: relative;
+  width: 100%;
+}
+
+.pj-viewport {
+  overflow: hidden;
+  padding: 20px 0 30px;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.pj-viewport:active {
+  cursor: grabbing;
+}
+
+.pj-track {
+  display: flex;
+  gap: 24px;
+  will-change: transform;
+  user-select: none;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+}
+
+/*====================================================
+  CARD
+====================================================*/
+
+.pj-card {
+  flex: 0 0 auto;
+  border-radius: 22px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, var(--pj-surface), var(--pj-surface-2));
+  border: 1px solid var(--pj-border);
+  box-shadow: 0 20px 45px -22px var(--pj-shadow);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s ease, border-color 0.45s ease, width 0.25s ease;
+}
+
+.pj-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--pj-border-strong);
+  box-shadow: 0 30px 60px -20px var(--pj-shadow), 0 0 0 1px rgba(13, 110, 253, 0.35);
+}
+
+/*====================================================
+  MEDIA — mini cards are deliberately shorter than
+  major cards, reinforcing that they're the lighter,
+  smaller-scale projects.
+====================================================*/
+
+.pj-card-media {
+  position: relative;
+  overflow: hidden;
+}
+
+.pj-card--major .pj-card-media {
+  height: 270px;
+}
+
+.pj-card--mini .pj-card-media {
+  height: 195px;
+}
+
+.pj-card-media img,
+.pj-card-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pj-card:hover .pj-card-media img,
+.pj-card:hover .pj-card-media video {
+  transform: scale(1.08);
+}
+
+/*====================================================
+  OVERLAY / PREVIEW BUTTON
+====================================================*/
+
+.pj-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0.65) 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.pj-card:hover .pj-card-overlay {
+  opacity: 1;
+}
+
+.pj-preview-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 26px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 40px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+
+.pj-preview-btn span {
+  font-size: 0.75em;
+}
+
+/*====================================================
+  BODY / TEXT — mini text runs a notch smaller than
+  major text, matching the smaller card footprint.
+====================================================*/
+
+.pj-card-body {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.pj-card--mini .pj-card-body {
+  padding: 18px;
+}
+
+.pj-card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--pj-text);
+}
+
+.pj-card--mini .pj-card-title {
+  font-size: 1.12rem;
+  margin-bottom: 10px;
+}
+
+.pj-card-desc {
+  font-size: 0.96rem;
+  line-height: 1.7;
+  color: var(--pj-text-dim);
+  min-height: 90px;
+}
+
+.pj-card--mini .pj-card-desc {
+  font-size: 0.88rem;
+  min-height: 66px;
+}
+
+/*====================================================
+  TECH CHIPS
+====================================================*/
+
+.pj-tech-row {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pj-tech-chip {
+  padding: 7px 14px;
+  border-radius: 40px;
+  font-size: 0.82rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--pj-border);
+  color: var(--pj-text-dim);
+}
+
+.pj-card--mini .pj-tech-chip {
+  padding: 5px 12px;
+  font-size: 0.76rem;
+}
+
+/*====================================================
+  ACTION BUTTONS
+====================================================*/
+
+.pj-card-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+}
+
+.pj-card--mini .pj-card-actions {
+  margin-top: 16px;
+}
+
+.pj-btn {
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+  padding: 11px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.pj-btn--primary {
+  border: none;
+  color: #fff;
+  background: linear-gradient(135deg, var(--pj-accent), var(--pj-accent-2));
+}
+
+.pj-btn--secondary {
+  border: 1px solid var(--pj-border-strong);
+  background: transparent;
+  color: var(--pj-text);
+}
+
+.pj-btn--primary:hover,
+.pj-btn--secondary:hover {
+  transform: translateY(-2px);
+}
+
+.pj-btn--primary:hover {
+  box-shadow: 0 12px 24px rgba(13, 110, 253, 0.35);
+}
+
+.pj-btn--secondary:hover {
+  border-color: var(--pj-accent-2);
+  background: rgba(34, 211, 238, 0.08);
+}
+
+/*====================================================
+  FADE EDGES — softens the peeking card into the
+  background, Netflix-style.
+====================================================*/
+
+.pj-fade {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 12%;
+  min-width: 60px;
+  max-width: 140px;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 1;
+  transition: opacity 0.35s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.pj-fade.pj-fade--hidden {
+  opacity: 0;
+}
+
+.pj-fade--left {
+  left: 0;
+  background: linear-gradient(to right, var(--pj-bg) 0%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 0%, transparent 100%);
+  mask-image: linear-gradient(to right, black 0%, transparent 100%);
+}
+
+.pj-fade--right {
+  right: 0;
+  background: linear-gradient(to left, var(--pj-bg) 0%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to left, black 0%, transparent 100%);
+  mask-image: linear-gradient(to left, black 0%, transparent 100%);
+}
+
+/*====================================================
+  MODAL
+====================================================*/
+
+.pj-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  z-index: 9999;
+  animation: pjFadeIn 0.35s ease;
+}
+
+.pj-modal {
+  width: min(1100px, 95vw);
+  max-height: 92vh;
+  overflow-y: auto;
+  border-radius: 24px;
+  position: relative;
+  animation: pjModalUp 0.35s ease;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  overflow: hidden;
+  background: var(--pj-surface);
+  border: 1px solid var(--pj-border);
+}
+
+.pj-modal-media {
+  width: 100%;
+  height: 100%;
+}
+
+.pj-modal-media img,
+.pj-modal-media video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.pj-modal-content {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pj-modal-content h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+}
+
+.pj-modal-content p {
+  line-height: 1.8;
+  margin-bottom: 25px;
+  color: var(--pj-text-dim);
+}
+
+.pj-modal-content h4 {
+  margin-bottom: 12px;
+}
+
+.pj-modal-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.pj-modal-close {
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--pj-border-strong);
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  transition: transform 0.3s ease, background 0.3s ease;
+  z-index: 10;
+}
+
+.pj-modal-close:hover {
+  transform: rotate(90deg) scale(1.08);
+  background: var(--pj-accent);
+}
+
+.pj-modal-close:focus-visible,
+.pj-btn--primary:focus-visible,
+.pj-btn--secondary:focus-visible {
+  outline: 2px solid var(--pj-accent-2);
+  outline-offset: 3px;
+}
+
+/*====================================================
+  KEYFRAMES
+====================================================*/
+
+@keyframes pjFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pjModalUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/*====================================================
+  RESPONSIVE
+  Note: card WIDTH is never touched here — that comes
+  from JS. These rules only adjust gap, typography,
+  spacing and the modal layout per breakpoint.
+====================================================*/
+
+@media (max-width: 1200px) {
+  .pj-modal {
+    width: 96vw;
+  }
+}
+
+@media (max-width: 992px) {
+  .pj-title {
+    font-size: 2.2rem;
+  }
+
+  /* Your <main> wrapper uses Bootstrap's m-5, a FIXED 48px margin on
+     every side at every screen size (it has no responsive variant).
+     On a phone that alone eats ~96px of a ~375px screen before any
+     card layout even starts. This section pulls itself back out to
+     reclaim that space, then adds back a smaller, sensible inner
+     padding so content still has breathing room from the edges. */
+  .pj-section {
+    margin-left: -3rem;
+    margin-right: -3rem;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .pj-rail-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .pj-rail-controls {
+    align-self: flex-end;
+    margin-top: -6px;
+  }
+
+  .pj-card--major .pj-card-media {
+    height: 230px;
+  }
+
+  .pj-card--mini .pj-card-media {
+    height: 170px;
+  }
+
+  .pj-modal {
+    grid-template-columns: 1fr;
+  }
+
+  .pj-modal-media {
+    height: 320px;
+  }
+
+  .pj-modal-content {
+    padding: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pj-section {
+    padding: 56px 0;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .pj-title {
+    font-size: 1.6rem;
+    margin-bottom: 34px;
+    letter-spacing: -0.01em;
+  }
+
+  .pj-rail {
+    margin-bottom: 56px;
+  }
+
+  .pj-rail-header {
+    margin-bottom: 18px;
+    gap: 10px;
+  }
+
+  .pj-rail-header h3 {
+    font-size: 1.15rem;
+    margin-bottom: 4px;
+  }
+
+  .pj-rail-header p {
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  .pj-rail-controls {
+    gap: 10px;
+    margin-top: -2px;
+  }
+
+  .pj-arrow {
+    width: 38px;
+    height: 38px;
+  }
+
+  .pj-arrow svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .pj-viewport {
+    padding: 12px 0 20px;
+  }
+
+  .pj-track {
+    gap: 14px;
+  }
+
+  .pj-card {
+    border-radius: 16px;
+  }
+
+  .pj-card--major .pj-card-media {
+    height: 190px;
+  }
+
+  .pj-card--mini .pj-card-media {
+    height: 150px;
+  }
+
+  .pj-card-body {
+    padding: 14px;
+  }
+
+  .pj-card--mini .pj-card-body {
+    padding: 12px;
+  }
+
+  .pj-card-title {
+    font-size: 0.98rem;
+    margin-bottom: 6px;
+  }
+
+  .pj-card--mini .pj-card-title {
+    font-size: 0.9rem;
+  }
+
+  .pj-card-desc {
+    font-size: 0.8rem;
+    line-height: 1.55;
+    min-height: auto;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .pj-card--mini .pj-card-desc {
+    font-size: 0.74rem;
+    -webkit-line-clamp: 2;
+  }
+
+  .pj-tech-row {
+    gap: 6px;
+  }
+
+  .pj-tech-chip {
+    padding: 4px 10px;
+    font-size: 0.68rem;
+  }
+
+  /* Mini cards are the tightest fit on mobile (3 visible at once), so
+     their action buttons go full-width/stacked rather than squeezed
+     side by side. */
+  .pj-card--mini .pj-card-actions {
+    flex-direction: column;
+  }
+
+  .pj-card-actions {
+    margin-top: 14px;
+    gap: 8px;
+  }
+
+  .pj-btn {
+    padding: 8px;
+    font-size: 0.78rem;
+    border-radius: 9px;
+  }
+
+  .pj-preview-btn {
+    padding: 9px 18px;
+    font-size: 0.82rem;
+  }
+
+  .pj-fade {
+    width: 9%;
+    min-width: 26px;
+  }
+
+  .pj-modal-content {
+    padding: 20px;
+  }
+
+  .pj-modal-content h2 {
+    font-size: 1.3rem;
+  }
+
+  .pj-modal-content p {
+    font-size: 0.88rem;
+  }
+
+  .pj-modal-buttons {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .pj-section {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .pj-track {
+    gap: 10px;
+  }
+
+  .pj-title {
+    font-size: 1.4rem;
+    margin-bottom: 28px;
+  }
+
+  .pj-rail-header h3 {
+    font-size: 1.02rem;
+  }
+
+  .pj-rail-header p {
+    font-size: 0.78rem;
+  }
+
+  .pj-card {
+    border-radius: 14px;
+  }
+
+  .pj-card--major .pj-card-media {
+    height: 170px;
+  }
+
+  .pj-card--mini .pj-card-media {
+    height: 135px;
+  }
+
+  .pj-card-title {
+    font-size: 0.92rem;
+  }
+
+  .pj-card-desc {
+    font-size: 0.76rem;
+  }
+
+  .pj-card-body {
+    padding: 12px;
+  }
+
+  .pj-card--mini .pj-card-body {
+    padding: 10px;
+  }
+
+  .pj-tech-chip {
+    padding: 4px 9px;
+    font-size: 0.65rem;
+  }
+
+  /* At true phone width, even major cards (2 visible) are narrow enough
+     that side-by-side buttons feel cramped — stack every card's actions. */
+  .pj-card-actions {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .pj-btn {
+    padding: 8px;
+    font-size: 0.74rem;
+  }
+
+  /* Keep mini cards from growing too tall on a 3-across mobile row —
+     show at most 3 tech chips, same spirit as a clamped description. */
+  .pj-card--mini .pj-tech-chip:nth-child(n + 4) {
+    display: none;
+  }
+
+  .pj-arrow {
+    width: 34px;
+    height: 34px;
+  }
+
+  .pj-arrow svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .pj-modal-close {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+}
+
+/*====================================================
+  ACCESSIBILITY
+====================================================*/
+
+@media (prefers-reduced-motion: reduce) {
+  .pj-track {
+    transition: none;
+  }
+
+  .pj-card,
+  .pj-card-media img,
+  .pj-card-media video,
+  .pj-arrow,
+  .pj-btn,
+  .pj-modal-close {
+    transition: none;
+  }
+}

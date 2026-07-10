@@ -1,0 +1,171 @@
+/* ============================================================
+   ACHIEVEMENTS SECTION — mobile fixes
+
+   The desktop look (dark coverflow card, arrows floating beside
+   it) comes from App.css and isn't touched here. On mobile the
+   card has no room beside it, so the arrows end up sitting on
+   top of the card text instead. This file only steps in at
+   tablet/mobile widths to:
+     1. reclaim the space the parent <main>'s fixed m-5 margin
+        eats into (same fix as the Projects section needed), and
+     2. rebuild the carousel as: card on top, arrows in a row
+        underneath — so nothing overlaps regardless of how tall
+        the description text wraps to.
+
+   Selectors are scoped under the #Achievements id for higher
+   specificity, so these rules reliably win over App.css without
+   needing !important anywhere.
+   ============================================================ */
+
+@media (max-width: 992px) {
+  /* Your <main> wrapper uses Bootstrap's m-5 — a FIXED 48px margin
+     on every side at every screen size. Reclaim that space here,
+     same as the Projects section; the inner .container (Bootstrap)
+     already supplies its own sensible gutter, so no extra padding
+     needs to be added back. */
+  #Achievements {
+    margin-left: -3rem;
+    margin-right: -3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  #Achievements h3 {
+    font-size: 1.5rem;
+    margin-bottom: 24px !important;
+  }
+
+  /* Rebuild the layout: card on top, prev/next arrows centered in
+     a row underneath, via CSS Grid areas — no JSX changes needed,
+     the DOM order (button, slider, button) stays exactly as-is. */
+  #Achievements .achievements-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "slider slider"
+      "prev   next";
+    align-items: center;
+    justify-items: center;
+    gap: 16px;
+  }
+
+  #Achievements .ach-slider {
+    grid-area: slider;
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+  }
+
+  #Achievements .ach-btn {
+    position: static;
+    inset: auto;
+    top: auto;
+    transform: none;
+    width: 42px;
+    height: 42px;
+    font-size: 1.3rem;
+    line-height: 1;
+  }
+
+  #Achievements .ach-btn.left {
+    grid-area: prev;
+  }
+
+  #Achievements .ach-btn.right {
+    grid-area: next;
+  }
+
+  /* The coverflow peeking side-cards need real horizontal room to
+     look right, which a phone screen doesn't have — show only the
+     active card. */
+  #Achievements .ach-card.prev,
+  #Achievements .ach-card.next {
+    display: none;
+  }
+
+  #Achievements .ach-card.active {
+    position: relative;
+    inset: auto;
+    top: auto;
+    left: auto;
+    right: auto;
+    transform: none;
+    opacity: 1;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 22px 18px;
+  }
+
+  #Achievements .ach-card h5 {
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+  }
+
+  #Achievements .ach-card p {
+    font-size: 0.86rem;
+    line-height: 1.55;
+  }
+
+  #Achievements .view-btn {
+    font-size: 0.85rem;
+    padding: 9px 20px;
+    margin-top: 14px;
+  }
+
+  /* Certificate modal */
+  .modal-box.cert-modal {
+    width: 92vw;
+    max-width: 92vw;
+    padding: 16px;
+    max-height: 88vh;
+    overflow-y: auto;
+  }
+
+  .cert-img {
+    max-width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+  }
+
+  .close-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  #Achievements h3 {
+    font-size: 1.3rem;
+  }
+
+  #Achievements .achievements-container {
+    gap: 12px;
+  }
+
+  #Achievements .ach-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+  }
+
+  #Achievements .ach-card.active {
+    padding: 18px 14px;
+    border-radius: 14px;
+  }
+
+  #Achievements .ach-card h5 {
+    font-size: 0.95rem;
+  }
+
+  #Achievements .ach-card p {
+    font-size: 0.8rem;
+  }
+
+  #Achievements .view-btn {
+    font-size: 0.8rem;
+    padding: 8px 16px;
+  }
+}
