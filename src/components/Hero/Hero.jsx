@@ -1,7 +1,7 @@
 import "./Hero.css";
 import { FaGithub, FaLinkedin, FaEnvelope, FaDownload} from "react-icons/fa";
 // import "../../App.css";
-const RESUME_URL = "/resume/Srihariresume.pdf";
+const RESUME_URL = "/resume/Srihariharanresume.pdf";
 
 function Hero() {
   return (
