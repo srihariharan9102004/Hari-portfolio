@@ -6,9 +6,6 @@ function Footer() {
       <p>
         © {new Date().getFullYear()} Srihariharan R. All Rights Reserved.
       </p>
-      <p>
-        Designed & Developed with ❤️ using React.js
-      </p>
     </footer>
   );
 }
