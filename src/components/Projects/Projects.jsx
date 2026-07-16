@@ -11,7 +11,7 @@ const projects = [
     type: "major",
     title: "Map-Based Location Reminder Application",
     description:
-      "A GPS reminder application built with React, Leaflet, Nominatim and browser geolocation APIs, with real-time alerts.",
+      "A GPS reminder application built with React, Leaflet, Nominatim and browser geolocation APIs, with real-time alerts. (Initial login may take ~20 seconds due to free-tier hosting.)",
     image: "/projectbgimg/location.png",
     video: "/projectbgimg/reminder.mp4",
     technologies: ["React","REST APIs", "Java", "Leaflet", "MySQL"],
