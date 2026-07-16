@@ -212,46 +212,6 @@
 }
 
 /*====================================================
-  OVERLAY / PREVIEW BUTTON
-====================================================*/
-
-.pj-card-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0.65) 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-
-.pj-card:hover .pj-card-overlay {
-  opacity: 1;
-}
-
-.pj-preview-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 26px;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 40px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  pointer-events: none;
-}
-
-.pj-preview-btn span {
-  font-size: 0.75em;
-}
-
-/*====================================================
   BODY / TEXT — mini text runs a notch smaller than
   major text, matching the smaller card footprint.
 ====================================================*/
@@ -367,6 +327,24 @@
 .pj-btn--secondary:hover {
   border-color: var(--pj-accent-2);
   background: rgba(34, 211, 238, 0.08);
+}
+
+/* "Not Hosted" state — shown instead of the Live Demo link when a
+   project has no liveLink set. Clearly disabled: muted colors, no
+   hover lift, not-allowed cursor. */
+.pj-btn--disabled,
+.pj-btn--disabled:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--pj-text-dim);
+  border: 1px solid var(--pj-border);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+.pj-btn:disabled {
+  pointer-events: none;
 }
 
 /*====================================================
@@ -716,11 +694,6 @@
     padding: 8px;
     font-size: 0.78rem;
     border-radius: 9px;
-  }
-
-  .pj-preview-btn {
-    padding: 9px 18px;
-    font-size: 0.82rem;
   }
 
   .pj-fade {

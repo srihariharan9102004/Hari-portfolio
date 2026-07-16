@@ -9,44 +9,49 @@ const projects = [
   {
     id: 1,
     type: "major",
-    title: "Hybrid Convolutional Model for Multimodal Deepfake Detection",
-    description:
-      "An AI-powered system that detects deepfake images, audio and video using deep learning models tuned for multimodal accuracy.",
-    image: "/projectbgimg/deepfake.png",
-    video: "/projectbgimg/deepfake.mp4",
-    technologies: ["Python", "CNN", "GNN", "Deep Learning", "AI"],
-    github: "https://github.com/yourusername/deepfake-project",
-  },
-  {
-    id: 2,
-    type: "major",
     title: "Map-Based Location Reminder Application",
     description:
       "A GPS reminder application built with React, Leaflet, Nominatim and browser geolocation APIs, with real-time alerts.",
     image: "/projectbgimg/location.png",
     video: "/projectbgimg/reminder.mp4",
-    technologies: ["React", "Java", "Leaflet", "MySQL"],
+    technologies: ["React","REST APIs", "Java", "Leaflet", "MySQL"],
     github: "https://github.com/srihariharan9102004/REMEMBER-location-app.git",
+    liveLink: "https://remember-location-app.vercel.app/",
   },
+  {
+    id: 2,
+    type: "major",
+    title: "Hybrid Convolutional Model for Multimodal Deepfake Detection",
+    description:
+      "An AI-powered system that detects deepfake images, audio and video using deep learning models tuned for multimodal accuracy.",
+    image: "/projectbgimg/deepfake.png",
+    video: "/projectbgimg/deepfake.mp4",
+    technologies: ["Python", "CNN", "GNN","VGG19", "Deep Learning", "AI"],
+    github: "https://github.com/yourusername/deepfake-project",
+    liveLink: null, // add the deployed URL here once it's hosted
+  },
+  
     {
     id: 4,
     type: "major",
     title: "Portfolio Website",
-    description: "A personal developer portfolio built with React and Bootstrap.",
+    description: "It is a collection of my work, ideas, and growth as a developer. Discover real-world projects, AI innovations, technical expertise, and experiences presented through a modern, interactive, and user-focused design.",
     video: "/projectbgimg/portfolio.mp4",
-    technologies: ["React", "CSS"],
+    technologies: ["React.js", "HTML 5", "CSS 3","JavaScript"],
     github: "https://github.com/srihariharan9102004/Hari-portfolio.git",
+    liveLink: "https://hari-portfolio-e487.vercel.app/",
   },
   {
     id: 3,
     type: "major",
     title: "Voice-Text Assistive System",
     description:
-      "A Smart India Hackathon project helping visually impaired users communicate through voice-to-text and text-to-speech.",
+      "Developed an Android application enabling real-time speech-to-text and text-to-speech communication. Integrated Google Speech Recognition and Text-to-Speech APIs for seamless user interaction.",
     image: "/projectbgimg/sih.png",
     video: "/projectbgimg/sihvideo.mp4",
-    technologies: ["React", "Java", "Speech API"],
+    technologies: ["React", "Java", "Speech API","MySQL"],
     github: "https://github.com/yourusername/sih-project",
+    liveLink: null,
   },
 
 
@@ -59,6 +64,7 @@ const projects = [
   image: "/mini-project/AI-chatbot.png",
   technologies: ["Python", "NLP", "Flask", "HTML", "CSS", "JavaScript"],
   github: "https://github.com/srihariharan9102004/AI-FAQChatbot.git",
+  liveLink: null,
 },
 {
   id: 6,
@@ -69,6 +75,7 @@ const projects = [
   image: "/mini-project/objdetection.jpg",
   technologies: ["Python", "YOLO", "OpenCV", "Deep Learning"],
   github: "https://github.com/srihariharan9102004/AI-Object-Detection-System.git",
+  liveLink: null,
 },
 {
   id: 7,
@@ -79,6 +86,7 @@ const projects = [
   image: "/mini-project/langtranslator.png",
   technologies: ["Python", "Google Translate API", "NLP", "Flask"],
   github: "https://github.com/srihariharan9102004/LanguageTranslator.git",
+  liveLink: null,
 },
 {
   id: 8,
@@ -89,6 +97,7 @@ const projects = [
   image: "/mini-project/musicgen.png",
   technologies: ["Python", "TensorFlow", "LSTM", "Deep Learning"],
   github: "https://github.com/srihariharan9102004/AI-Music-Generation.git",
+  liveLink: null,
 },
   {
     id: 9,
@@ -98,8 +107,9 @@ const projects = [
     image: "/mini-project/nextias.png",
     technologies: ["React", "Bootstrap", "Java"],
     github: "https://github.com/srihariharan9102004/next-ias.git",
+    liveLink: null,
   },
-  
+
 
 
 ];
@@ -131,25 +141,25 @@ const miniProjects = projects.filter((p) => p.type === "mini");
 
 const PEEK_FRACTION = 0.3; // next card always shows ~30% of its width
 
-// True on small phone screens — used only to shorten a button label so it
-// never wraps awkwardly inside a narrow card. Layout sizing itself is
-// handled by the measured formula above, not by this flag.
-function useIsCompact(breakpoint = 480) {
-  const [isCompact, setIsCompact] = useState(
-    () => typeof window !== "undefined" && window.innerWidth < breakpoint
+// True when the device has real hover (mouse/trackpad), false on touch-only
+// devices. Used only to decide what tapping a project's video does — it
+// does not affect layout/sizing.
+function useHoverCapable() {
+  const [canHover, setCanHover] = useState(
+    () => typeof window === "undefined" || window.matchMedia("(hover: hover)").matches
   );
 
   useEffect(() => {
-    const mql = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
-    const update = () => setIsCompact(mql.matches);
+    const mql = window.matchMedia("(hover: hover)");
+    const update = () => setCanHover(mql.matches);
     update();
     mql.addEventListener ? mql.addEventListener("change", update) : mql.addListener(update);
     return () => {
       mql.removeEventListener ? mql.removeEventListener("change", update) : mql.removeListener(update);
     };
-  }, [breakpoint]);
+  }, []);
 
-  return isCompact;
+  return canHover;
 }
 
 // How many full cards to show, per rail type, at a given viewport width.
@@ -194,10 +204,16 @@ function ChevronIcon({ direction }) {
    PROJECT CARD
    ============================================================ */
 
-function ProjectCard({ project, variant, width, onOpen, compact }) {
+function ProjectCard({ project, variant, width, onOpen }) {
   const videoRef = useRef(null);
   const isMajor = variant === "major";
   const Heading = isMajor ? "h3" : "h4";
+
+  // Devices with real hover (mouse/trackpad) keep the existing behavior:
+  // hover plays the preview, clicking opens the details modal. Touch
+  // devices have no hover at all, so on them tapping the video should
+  // just play it in place — not open the modal.
+  const canHover = useHoverCapable();
 
   const handleEnter = () => {
     const v = videoRef.current;
@@ -214,6 +230,21 @@ function ProjectCard({ project, variant, width, onOpen, compact }) {
     v.currentTime = 0;
   };
 
+  const handleMediaClick = () => {
+    if (project.video && !canHover) {
+      const v = videoRef.current;
+      if (!v) return;
+      if (v.paused) {
+        const p = v.play();
+        if (p && typeof p.catch === "function") p.catch(() => {});
+      } else {
+        v.pause();
+      }
+      return;
+    }
+    onOpen(project);
+  };
+
   return (
     <div
       className={`pj-card ${isMajor ? "pj-card--major" : "pj-card--mini"}`}
@@ -221,7 +252,7 @@ function ProjectCard({ project, variant, width, onOpen, compact }) {
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
     >
-      <div className="pj-card-media" onClick={() => onOpen(project)}>
+      <div className="pj-card-media" onClick={handleMediaClick}>
         {project.video ? (
           <video
             ref={videoRef}
@@ -230,19 +261,12 @@ function ProjectCard({ project, variant, width, onOpen, compact }) {
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="auto"
             draggable={false}
           />
         ) : (
           <img src={project.image} alt={project.title} loading="lazy" draggable={false} />
         )}
-
-        <div className="pj-card-overlay">
-          <button className="pj-preview-btn" tabIndex={-1}>
-            <span>&#9654;</span>
-            {project.video ? "Preview" : "View"}
-          </button>
-        </div>
       </div>
 
       <div className="pj-card-body">
@@ -258,9 +282,26 @@ function ProjectCard({ project, variant, width, onOpen, compact }) {
         </div>
 
         <div className="pj-card-actions">
-          <button className="pj-btn pj-btn--primary" onClick={() => onOpen(project)}>
-            {isMajor && !compact ? "View Details" : "Details"}
-          </button>
+          {project.liveLink ? (
+            <a
+              href={project.liveLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pj-btn pj-btn--primary"
+            >
+              Live Demo
+            </a>
+          ) : (
+            <button
+              type="button"
+              className="pj-btn pj-btn--primary pj-btn--disabled"
+              disabled
+              aria-disabled="true"
+              title="No live link added for this project yet"
+            >
+              Not Hosted
+            </button>
+          )}
           <a
             href={project.github}
             target="_blank"
@@ -285,7 +326,6 @@ function ProjectRail({ title, description, items, variant, onOpen }) {
   const viewportRef = useRef(null);
   const trackRef = useRef(null);
   const dragRef = useRef({ active: false, startX: 0, lastX: 0, startTranslate: 0, dragged: false });
-  const compact = useIsCompact(480);
 
   const [index, setIndex] = useState(0);
   const [layout, setLayout] = useState({
@@ -368,6 +408,11 @@ function ProjectRail({ title, description, items, variant, onOpen }) {
 
   const beginDrag = (e) => {
     if (!e.isPrimary || !trackRef.current) return;
+    // Don't hijack presses that start on a link/button (GitHub, Live Demo,
+    // etc). Without this, a few pixels of natural pointer jitter between
+    // press and release could get misread as a drag, and the capturing
+    // click-swallow logic below would silently cancel the link's navigation.
+    if (e.target.closest && e.target.closest("a, button")) return;
     dragRef.current = { active: true, startX: e.clientX, lastX: e.clientX, startTranslate: translate, dragged: false };
     trackRef.current.style.transition = "none";
     viewportRef.current?.setPointerCapture?.(e.pointerId);
@@ -471,7 +516,6 @@ function ProjectRail({ title, description, items, variant, onOpen }) {
                 variant={variant}
                 width={layout.cardWidth}
                 onOpen={onOpen}
-                compact={compact}
               />
             ))}
           </div>
